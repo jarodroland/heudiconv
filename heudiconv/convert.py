@@ -178,7 +178,13 @@ def prep_conversion(sid, dicoms, outdir, heuristic, converter, anon_sid,
         with open(dicominfo_file, 'wt') as fp:
             fp.write('\t'.join([val for val in seqinfo_fields]) + '\n')
             for seq in seqinfo_list:
-                fp.write('\t'.join([str(val) for val in seq]) + '\n')
+                for val in seq:
+                    try:
+                        fp.write(str(val) + '\t')
+                    except UnicodeEncodeError:
+                        fp.write(val.encode('ascii', 'replace') + '\t')
+                    fp.write('\n')
+        
         lgr.debug("Calling out to %s.infodict", heuristic)
         info = heuristic.infotodict(seqinfo_list)
         lgr.debug("Writing to {}, {}, {}".format(info_file, edit_file,
