@@ -111,6 +111,9 @@ def validate_dicom(fl, dcmfilter):
             mw.dcm_data, 'ProtocolName', 'tProtocolName'
         ) if mw.is_csa else ''
     try:
+        if mw.dcm_data.SeriesNumber is None:
+            mw.dcm_data.SeriesNumber = 0
+
         series_id = (
             int(mw.dcm_data.SeriesNumber), mw.dcm_data.ProtocolName
         )
