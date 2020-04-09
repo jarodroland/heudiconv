@@ -183,7 +183,7 @@ def prep_conversion(sid, dicoms, outdir, heuristic, converter, anon_sid,
                         fp.write(str(val) + '\t')
                     except UnicodeEncodeError:
                         fp.write(val.encode('ascii', 'replace') + '\t')
-                    fp.write('\n')
+                fp.write('\n')
         
         lgr.debug("Calling out to %s.infodict", heuristic)
         info = heuristic.infotodict(seqinfo_list)
